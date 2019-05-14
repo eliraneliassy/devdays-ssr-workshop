@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,7 @@ import { ProductComponent } from './product/product.component';
 import { ProductResolve } from './product/product.resolve';
 import { SsrNoRenderingDirective } from './ssr-no-rendering.directive';
 import { SsrRenderingDirective } from './ssr-rendering.directive';
+import { ServerTransferStateModule } from '@angular/platform-server';
 
 @NgModule({
   declarations: [
@@ -20,12 +21,14 @@ import { SsrRenderingDirective } from './ssr-rendering.directive';
     ItemComponent,
     ProductComponent,
     SsrNoRenderingDirective,
-    SsrRenderingDirective
+    SsrRenderingDirective,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ServerTransferStateModule,
+    BrowserTransferStateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

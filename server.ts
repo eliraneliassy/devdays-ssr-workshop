@@ -5,7 +5,11 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 import { writeFileSync, readFileSync } from 'fs';
 
-const { AppServerModuleNgFactory } = require('./dist/devdays-ssr-workshop-server/main');
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/devdays-ssr-workshop-server/main');
+
 
 import * as express from 'express';
 
@@ -13,22 +17,27 @@ enableProdMode();
 
 const app = express();
 
-const indexHtml = readFileSync(__dirname + '/dist/devdays-ssr-workshop/index.html', 'utf-8').toString();
+const distFolder = __dirname + '/dist/devdays-ssr-workshop';
 
-app.get('*.*', express.static(__dirname + '/dist/devdays-ssr-workshop', {
-    maxAge: '5y'
+app.engine('html', ngExpressEngine({
+    bootstrap: AppServerModuleNgFactory,
+    providers: [provideModuleMap(LAZY_MODULE_MAP)]
 }));
 
-app.route('*').get((req, res) => {
-    renderModuleFactory(AppServerModuleNgFactory, {
-        document: indexHtml,
-        url: req.url
-    }).then(html => res.status(200).send(html))
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500);
-        });
+app.set('view engine', 'html');
+
+app.set('views', __dirname + '/dist/devdays-ssr-workshop');
+
+
+app.get('*.*', express.static(distFolder, {
+    maxAge: '1y'
+}));
+
+
+app.get('*', (req, res) => {
+    res.render('index', { req });
 });
+
 
 app.listen(4200, () => {
     console.log('app running');

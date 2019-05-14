@@ -6,7 +6,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', component: FeedComponent },
-  { path: 'product/:id', component: ProductComponent, resolve: { item: ProductResolve } }
+  {
+    path: 'product/:id',
+    component: ProductComponent,
+    resolve: { item: ProductResolve }
+  }
 ];
 
 @NgModule({

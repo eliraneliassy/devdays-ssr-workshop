@@ -19,7 +19,7 @@ import { ProductResolve } from './product/product.resolve';
     ProductComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule
   ],

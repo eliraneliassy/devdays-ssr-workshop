@@ -10,7 +10,6 @@ export class ProductResolve implements Resolve<Item> {
     constructor(private feedService: FeedService) { }
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
         Observable<Item> {
-            debugger
         const productId = route.params['id'];
         return this.feedService.getFeed().pipe(
             map(x => x.find(item => item._id === productId))

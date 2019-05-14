@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Item } from '../item';
 import { Title, Meta } from '@angular/platform-browser';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'app-product',
@@ -14,12 +15,17 @@ export class ProductComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private title: Title,
-    private meta: Meta) { }
+    private meta: Meta,
+    @Inject(PLATFORM_ID) private platformId) { }
 
   ngOnInit() {
     this.route.data.subscribe((res: any) => this.item = res.item);
 
     this.title.setTitle('My Awesome Website' + this.item.description);
+
+    if (!isPlatformServer(this.platformId)) {
+      // 
+    }
 
 
     const fbTags = [];

@@ -9,6 +9,8 @@ import { HeaderComponent } from './header/header.component';
 import { ItemComponent } from './item/item.component';
 import { ProductComponent } from './product/product.component';
 import { ProductResolve } from './product/product.resolve';
+import { SsrNoRenderingDirective } from './ssr-no-rendering.directive';
+import { SsrRenderingDirective } from './ssr-rendering.directive';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { ProductResolve } from './product/product.resolve';
     FeedComponent,
     HeaderComponent,
     ItemComponent,
-    ProductComponent
+    ProductComponent,
+    SsrNoRenderingDirective,
+    SsrRenderingDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
